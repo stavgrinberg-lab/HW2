@@ -140,11 +140,12 @@ public class BigramModel {
         File countFile = new File(fileName + COUNTS_FILE_SUFFIX);
         BufferedWriter bufferedWriter1 = new BufferedWriter(new FileWriter(vocFile)); 
         BufferedWriter bufferedWriter2 = new BufferedWriter(new FileWriter(countFile)); 
-        bufferedWriter1.write((mVocabulary.length + " words") + System.lineSeparator());
-        for (int i=0;i<mVocabulary.length;i++)
+        int n = mVocabulary.length;
+        bufferedWriter1.write((n + " words") + System.lineSeparator());
+        for (int i=0;i<n;i++)
             bufferedWriter1.write((i + "," + mVocabulary[i]) + System.lineSeparator());
-        for (int i=0;i<mBigramCounts.length;i++){
-            for (int j=0;j<mBigramCounts.length;j++){
+        for (int i=0;i<n;i++){
+            for (int j=0;j<n;j++){
                 if (mBigramCounts[i][j]!=0)
                     bufferedWriter2.write((i + "," + j + ":" + mBigramCounts[i][j]) + System.lineSeparator());
             }
@@ -160,8 +161,27 @@ public class BigramModel {
     public void loadModel(String fileName) throws IOException { // Question 4
         File vocFile = new File(fileName + VOC_FILE_SUFFIX);
         File countFile = new File(fileName + COUNTS_FILE_SUFFIX);
+        BufferedReader bufferedReader1 = new BufferedReader(new FileReader(vocFile));
+        BufferedReader bufferedReader2 = new BufferedReader(new FileReader(countFile));
+        String line1 = bufferedReader1.readLine();
+        String line2;
+        int n = Integer.parseInt(line1.split(" ")[0]);
+        String[] new_voc = new String[n];
+        int[][] new_count = new int[n][n];
+        while ((line1 = bufferedReader1.readLine()) != null) {
+            String[] parts = line1.split(",");
+            new_voc[Integer.parseInt(parts[0])] = parts[1];
+        }
+        while ((line2 = bufferedReader2.readLine()) != null) {
+            String[] parts = line2.split("[,:]");
+            new_count[Integer.parseInt(parts[0])][Integer.parseInt(parts[1])] = Integer.parseInt(parts[2]);
+        }
+        
+        mVocabulary = new_voc;
+        mBigramCounts = new_count;
 
-
+        bufferedReader1.close();
+        bufferedReader2.close();
 
     }
 
@@ -172,8 +192,21 @@ public class BigramModel {
      * @post: if sentence is probable, according to the model, $ret = true, else, $ret = false
      */
     public boolean isLegalSentence(String sentence) { // Question 5
-        // TODO: implement
-        return false;
+        String[] voc = sentence.trim().split("\\s+"); 
+        if (voc[0].equals(""))
+            return true;
+        if (voc.length == 1)
+            return (findIndex(mVocabulary, voc[0]) != ELEMENT_NOT_FOUND);
+        for (int i=0;i<voc.length-1;i++){
+            int k = findIndex(mVocabulary, voc[i]);
+            int j = findIndex(mVocabulary, voc[i+1]);
+            if ((k==ELEMENT_NOT_FOUND) || (j==ELEMENT_NOT_FOUND))
+                return false;
+            if (mBigramCounts[k][j] == 0)
+                return false;
+        }
+
+        return true;
     }
 
     ///////////////////////////////////////////////////////////////////////////
