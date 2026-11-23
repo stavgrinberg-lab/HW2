@@ -9,8 +9,7 @@ import il.ac.tau.cs.software1.math.Vector2;
 public class PacmanPlayer extends PacmanGameObject {
 		
 	protected int score = 0;
-	
-	// TODO (Question 9): add a private field of type InventoryComponent, and initialize it
+	InventoryComponent ivco = new InventoryComponent();
 	
 	public PacmanPlayer(PacmanGridComponent initialPosition) {
 		super(initialPosition);
@@ -55,8 +54,7 @@ public class PacmanPlayer extends PacmanGameObject {
 	}
 	
 	public InventoryComponent getInventoryComponent() {
-		// TODO (Question 9): return the InventoryComponent field
-		return null;
+		return ivco;
 	}
 	
 	public void addScore(int bonus) {
