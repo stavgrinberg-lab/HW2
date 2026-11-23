@@ -9,7 +9,7 @@ import il.ac.tau.cs.software1.math.Vector2;
 public class PacmanPlayer extends PacmanGameObject {
 		
 	protected int score = 0;
-	InventoryComponent ivco = new InventoryComponent();
+	private InventoryComponent ivco = new InventoryComponent();
 	
 	public PacmanPlayer(PacmanGridComponent initialPosition) {
 		super(initialPosition);

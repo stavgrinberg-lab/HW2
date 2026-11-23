@@ -14,11 +14,11 @@ public class PacmanBonusDot extends PacmanBonus {
 
 	@Override
 	public float getWeight() {
-		return (float)1;
+		return 1.0f;
 	}
 
 	@Override
 	public float getPrice() {
-		return (float)12;
+		return 12.0f;
 	}
 }

@@ -11,8 +11,8 @@ public class InventoryComponent implements IComponent {
 	// Collected objects are not destroyed. They are moved here, far outside of the screen.
 	private static final Vector2 INVENTORY_POSITION = new Vector2(-100.0f, -100.0f);
 	private static final float INITIAL_MAX_WEIGHT = 10.0f;
-	Inventory inv = new NaiveInventory();
-	float maxWeight = INITIAL_MAX_WEIGHT;
+	private Inventory inv = new NaiveInventory();
+	private float maxWeight = INITIAL_MAX_WEIGHT;
 
 	public Inventory getInventory() {
 		return inv;

@@ -6,9 +6,8 @@ package il.ac.tau.cs.software1.inventory;
 public class NaiveInventory implements Inventory {
 
 	private static final int INITIAL_CAPACITY = 100;
-
-	Collectible[] col;
-	int count;
+	private Collectible[] col;
+	private int count;
 
 	public NaiveInventory() {
 		col = new Collectible[INITIAL_CAPACITY];
@@ -30,10 +29,8 @@ public class NaiveInventory implements Inventory {
 	@Override
 	public float getTotalWeight() {
 		float sum = 0;
-		for (Collectible item:col)
-			if (item == null)
-				break;
-			else sum+=item.getWeight();
+		for (int i=0; i<count; i++)
+			sum+=col[i].getWeight();
 		return sum;
 	}
 
